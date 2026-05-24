@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fatima's Organic Crown</title>
+
+  <style>
+    :root {
+      --bg-1: #bf3b2e;
+      --bg-2: #f4e3d1;
+      --bg-3: #fbf6f0;
+      --ink: #3f2a24;
+      --muted: #6b5246;
+      --accent: #17181a;
+      --accent-2: #b68a5f;
+      --card: rgba(255, 255, 255, 0.48);
+      --card-strong: rgba(255, 255, 255, 0.68);
+      --border: rgba(102, 71, 58, 0.12);
+      --shadow: 0 18px 50px rgba(82, 52, 40, 0.12);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behaviour: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(222, 102, 112, 0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(182, 138, 95, 0.18), transparent 28%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-3) 40%, var(--bg-2) 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 18%),
+        radial-gradient(circle at 80% 25%, rgba(255, 255, 255, 0.09), transparent 14%),
+        radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.08), transparent 16%);
+      filter: blur(10px);
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      background:
+        linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.09) 50%, transparent 100%);
+      transform: translateX(-60%);
+      animation: sheen 8s ease-in-out infinite;
+      opacity: 0.55;
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: 0.01em;
+      margin: 0;
+    }
+
+    p {
+      line-height: 1.7;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(248, 239, 228, 0.74);
+      border-bottom: 1px solid rgba(102, 71, 58, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text small {
+      display: block;
+      margin-top: 2px;
+      font-size: 12px;
+      color: #8d6a5c;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .nav {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .nav a {
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 34px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      padding: 24px 0;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 12px;
+      color: #17181a;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: 0.92;
+      max-width: 10ch;
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .hero-lead {
+      font-size: 1.08rem;
+      max-width: 54ch;
+    }
+
+    .subcopy {
+      font-size: 0.98rem;
+      max-width: 52ch;
+      color: #1f1714;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #bf5b7b);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.5);
+      border-color: rgba(102, 71, 58, 0.16);
+      color: var(--ink);
+    }
+
+    .hero-panel,
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: calc(var(--radius) + 8px);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(102, 71, 58, 0.12);
+      background: var(--card);
+    }
+
+    .hero-panel {
+      min-height: 540px;
+      background: #e9d6c2;
+    }
+
+    .hero-panel img,
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-panel::after,
+    .image-card::after,
+    .product-spotlight::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 50%, transparent 70%);
+      transform: translateX(-120%);
+      animation: card-sheen 10s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hero-badge,
+    .image-caption {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(248, 239, 228, 0.76);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(102, 71, 58, 0.12);
+    }
+
+    .hero-badge strong,
+    .image-caption strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1rem;
+      font-family: Georgia, serif;
+    }
+
+    .hero-badge span,
+    .image-caption span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section {
+      padding: 22px 0 28px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section h2 {
+      font-size: clamp(2rem, 3vw, 3rem);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .panel-pad {
+      padding: 28px;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .feature {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.52);
+      border: 1px solid rgba(102, 71, 58, 0.1);
+    }
+
+    .feature h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      font-family: inherit;
+    }
+
+    .feature p {
+      font-size: 14px;
+    }
+
+    .image-card {
+      min-height: 520px;
+      position: relative;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+    }
+
+    .product-spotlight {
+      min-height: 560px;
+      position: relative;
+    }
+
+    .product-cards {
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 20px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(102, 71, 58, 0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .mini-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+      font-family: inherit;
+    }
+
+    .mini-card .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8d6a5c;
+      margin-bottom: 10px;
+    }
+
+    .quote {
+      font-size: clamp(1.35rem, 2vw, 1.85rem);
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 14px;
+      font-family: Georgia, serif;
+    }
+
+    .contact-card {
+      margin: 10px 0 42px;
+      padding: 34px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(222, 102, 112, 0.14), rgba(182, 138, 95, 0.12));
+      border: 1px solid rgba(102, 71, 58, 0.1);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .contact-card h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin-bottom: 8px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .footer {
+      padding: 8px 0 40px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @keyframes drift {
+      0%   { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+      100% { transform: translate3d(1.5%, 1%, 0) scale(1.04); }
+    }
+
+    @keyframes sheen {
+      0%   { transform: translateX(-65%); opacity: 0; }
+      20%  { opacity: 0.55; }
+      50%  { transform: translateX(65%); opacity: 0.15; }
+      100% { transform: translateX(65%); opacity: 0; }
+    }
+
+    @keyframes card-sheen {
+      0%   { transform: translateX(-130%); opacity: 0; }
+      15%  { opacity: 0.35; }
+      45%  { transform: translateX(130%); opacity: 0.12; }
+      100% { transform: translateX(130%); opacity: 0; }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel,
+      .image-card,
+      .product-spotlight {
+        min-height: 480px;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav {
+        gap: 14px;
+      }
+
+      .hero h1 {
+        max-width: 12ch;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-pad,
+      .contact-card {
+        padding: 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        scroll-behaviour: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="Fatima_logo_2.png" alt="Fatima's Organic Crown logo">
+        </div>
+        <div class="brand-text">
+          <div>Fatima's Organic Crown</div>
+          <small>Natural hair care</small>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#range">Range</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Herbal care for healthier-looking hair</div>
+          <h1>Nourish.<br><span>Strengthen.</span><br>Grow naturally.</h1>
+          <p class="hero-lead">
+            A calm, premium hair ritual inspired by Ayurvedic traditions. Rich but lightweight formulas designed to support softness, shine, and a healthier-looking scalp.
+          </p>
+          <p class="subcopy">
+            We create carefully handcrafted products using nourishing oils and herbal ingredients to support healthy hair growth, strengthen the hair, and promote a healthy scalp.
+          </p>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="#range">Shop range</a>
+            <a class="btn btn-secondary" href="#contact">Get in touch</a>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <img src="Fatima logo.png" alt="Fatima's Organic Crown hero image" loading="eager">
+          <div class="hero-badge">
+            <strong>Natural care with a premium finish.</strong>
+            <span>Simple ingredients, thoughtful formulas, and a softer hair routine.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="grid-2">
+          <div class="panel panel-pad" id="benefits">
+            <p class="quote">Herbal Infused Hair Growth Butter</p>
+            <div class="feature-list">
+              <div class="feature">
+                <h3>Promotes hair growth</h3>
+                <p>Supports new, healthy hair growth.</p>
+              </div>
+              <div class="feature">
+                <h3>Reduces hair fall</h3>
+                <p>Helps reduce breakage and strengthens hair from root to tip.</p>
+              </div>
+              <div class="feature">
+                <h3>Nourishes the scalp</h3>
+                <p>Helps relieve dryness and soothe irritation.</p>
+              </div>
+              <div class="feature">
+                <h3>Supports a clean scalp</h3>
+                <p>Helps fight flakiness for a healthier-looking scalp.</p>
+              </div>
+              <div class="feature">
+                <h3>Ayurvedic herbs & oils</h3>
+                <p>Infused with natural ingredients for a gentle routine.</p>
+              </div>
+              <div class="feature">
+                <h3>Boosts shine & softness</h3>
+                <p>Helps restore smoothness and manageability.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel image-card">
+            <img src="Fatima 1.jpg" alt="Herbal infused hair growth butter" loading="lazy">
+            <div class="image-caption">
+              <strong>£27.50</strong>
+              <span>Herbal Infused Hair Growth Butter</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="grid-2">
+          <div class="panel panel-pad">
+            <p class="quote">Ayurvedic Hair Growth Oil 100ml</p>
+            <div class="feature-list">
+              <div class="feature">
+                <h3>Promotes growth</h3>
+                <p>Supports the hair and scalp with nourishing oils.</p>
+              </div>
+              <div class="feature">
+                <h3>Reduces breakage</h3>
+                <p>Helps strengthen strands and improve resilience.</p>
+              </div>
+              <div class="feature">
+                <h3>Comforts the scalp</h3>
+                <p>Supports moisture and a calmer-feeling scalp.</p>
+              </div>
+              <div class="feature">
+                <h3>Boosts softness</h3>
+                <p>Leaves hair feeling smoother and easier to manage.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel image-card">
+            <img src="Fatima.png" alt="Ayurvedic hair growth oil" loading="lazy">
+            <div class="image-caption">
+              <strong>£24.99</strong>
+              <span>Ayurvedic Hair Growth Oil 100ml</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="range">
+      <div class="wrap">
+        <div class="products">
+          <div class="panel image-card product-spotlight">
+            <img src="Fatima 2.jpg" alt="Hair growth set" loading="lazy">
+            <div class="image-caption">
+              <strong>£48.00</strong>
+              <span>Hair Growth Set (Oil + Butter)</span>
+            </div>
+          </div>
+
+          <div class="product-cards">
+            <div class="mini-card">
+              <div class="tag">Set</div>
+              <h3>Hair Growth Set (Oil + Butter)</h3>
+              <p>A complete routine combining your key products in one simple set.</p>
+            </div>
+
+            <div class="mini-card">
+              <div class="tag">How to use</div>
+              <h3>Step 1</h3>
+              <p>Apply the oil to the scalp and hair lengths.</p>
+              <h3>Step 2</h3>
+              <p>Use the butter to lock in moisture and softness.</p>
+            </div>
+
+            <div class="mini-card">
+              <div class="tag">Experience</div>
+              <h3>Simple, nourishing, and premium</h3>
+              <p>Made for a calmer routine with a polished natural finish.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="wrap">
+        <div class="contact-card">
+          <div>
+            <div class="eyebrow">Contact</div>
+            <h2>To buy, please get in touch.</h2>
+            <div class="contact-list">
+              <div>Email: fatimasorganiccrown@gmail.com</div>
+              <div>Instagram: @fatimaorganiccrown</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          All rights reserved.
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
